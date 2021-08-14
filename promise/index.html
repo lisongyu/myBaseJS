@@ -12,16 +12,57 @@
 
     let p1=new KPromise((resolve,reject)=>{
       console.log('异步任务')
-      resolve()
+       resolve('我说的')
+      //reject('出错了')
     })
 
-     p1.then(()=>{
-      console.log('这是第一个then')
+    //  p1.then((res)=>{ 
+    //    console.log('val',res)
+    //  },err=>{
+    //    console.log('err',err)
+    //  })
+
+    // p1.then((res)=>{ 
+    //    console.log('val',res)
+    //    return res
+    //  }).catch(err=>{
+       
+    //    console.log('err',err)
+    //    return err
+     
+    //  }).finally(val=>{
+    //    console.log('finally',val)
+    //  })
+      // return 123
+  
+
+    // p1.then((res)=>{
+    //   console.log(res)
+    //   console.log('这是第二个then')
+    // })
+    KPromise.resolve('我解决了123').then(val=>{
+      console.log('val',val)
     })
 
-    p1.then(()=>{
-      console.log('这是第二个then')
+
+    let p2=new KPromise((resolve,reject)=>{
+    
+       resolve('我是瓶p2')
+      //reject('出错了')
     })
+    KPromise.all([p1,
+    new KPromise((resolve,reject)=>{
+      setTimeout(()=>{
+        resolve('我延迟执行')
+      },1000)
+    }),
+    p2]).then(vals=>{
+      console.log(vals)
+      console.log('成功了')
+    }).catch(err=>{
+      console.log('失败了')
+    })
+
 
     console.log('script end')
 

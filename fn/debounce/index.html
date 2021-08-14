@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box{
+      width: 300px;
+      height:300px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+  <script>
+     var oBox=document.getElementsByClassName('box')[0]
+     function test(){
+       console.log(1)
+     }
+
+     function debounce(fn,time,triggleNow){
+        let t=null;
+        var res;
+        let debounced=function(){
+          var _self=this;
+          var args=arguments;
+          if(t){
+            clearTimeout(t)
+          }
+          if(triggleNow){
+            let exec=!t; // 为true
+            // 相当于开关
+            t=setTimeout(function(){
+              t=null;
+            },time)
+            if(exec){
+              res=fn.apply(_self,args)
+            }
+          }else{
+            t=setTimeout(function(){
+              fn.apply(_self,args)
+            },time)
+          }
+          return res
+        }
+
+        debounced.remove=function(){
+          clearTimeout(t)
+          t=null
+        }
+        return debounced
+
+     }
+     oBox.onmouseover=debounce(test,2000,true)
+
+  </script>
+  </body>
+</html>
